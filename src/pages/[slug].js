@@ -1,31 +1,27 @@
-import { getPagesContent } from "@/lib/hygraphcms";
+import { getPagesContent, getPageContent } from "@/lib/hygraphcms";
 import ReactMarkdown from "react-markdown";
 import styles from "@/styles/global.module.css";
+import RootLayout from "@/layouts/rootLayout";
+import CustomHead from "@/components/head";
+import Image from "next/image";
+import Footer from "@/components/footer";
 
-// export async function generateStaticParams() {
-//   const data = await getPagesContent();
-
-//   return data.pages.map((page) => ({
-//     slug: page?.menuLink?.slug || "",
-//   }));
-// }
-
-// export async function generateMetadata({ params }) {
-//   const { slug } = params;
-//   const data = await getPagesContent();
-//   const metaData = filterFetchedData(data.pages, slug);
-
-//   return {
-//     title: metaData?.seo?.title,
-//     description: metaData?.seo?.description,
-//     keywords: metaData?.seo?.keywords,
-//   };
-// }
-
-export default function Page({ params }) {
+export default function Page({ pageData, dynamicRoutesData }) {
+  const content = pageData.pages[0];
+  const pageSEO = content.seo;
   return (
-    <>
-      {/* <div className="container mb-4 mt-4 max-w-screen-lg pt-2 md:mb-8 md:mt-0 md:pt-12">
+    <RootLayout>
+      <CustomHead SEO={pageSEO} />
+      <div className="relative h-60 w-full overflow-hidden bg-slate-400 lg:h-80">
+        <Image
+          src={content?.header?.picture?.url}
+          fill={true}
+          alt={content?.title}
+          style={{ objectFit: "cover", objectPosition: "center" }}
+          sizes="100vw"
+        />
+      </div>
+      <div className="container mb-4 mt-4 max-w-screen-lg pt-2 md:mb-8 md:mt-0 md:pt-12">
         <h1 className="mb-2 text-center text-2xl font-light text-blue-900 md:text-3xl">
           {content?.title}
         </h1>
@@ -42,7 +38,26 @@ export default function Page({ params }) {
             ? content?.texts[0]?.text?.markdown
             : content?.markdownTexts[0]?.markdownText}
         </ReactMarkdown>
-      </div> */}
-    </>
+      </div>
+      <Footer data={dynamicRoutesData} />
+    </RootLayout>
   );
+}
+
+export async function getStaticProps({ params }) {
+  const pageData = (await getPageContent(params.slug)) || {};
+  const dynamicRoutesData = (await getPagesContent()) || {};
+  return {
+    props: { pageData, dynamicRoutesData },
+  };
+}
+
+export async function getStaticPaths() {
+  const pageData = (await getPagesContent()) || {};
+  const paths = pageData.pages.map((page) => ({
+    params: {
+      slug: page.menuLink.slug,
+    },
+  }));
+  return { paths, fallback: false };
 }

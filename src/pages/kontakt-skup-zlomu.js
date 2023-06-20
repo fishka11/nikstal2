@@ -1,17 +1,25 @@
 import Image from "next/image";
 import RootLayout from "@/layouts/rootLayout";
-import { getStaticPagesContent, getFirmData } from "@/lib/hygraphcms";
+import {
+  getStaticPagesContent,
+  getFirmData,
+  getPagesContent,
+} from "@/lib/hygraphcms";
 import CustomHead from "@/components/head";
 import ReactMarkdown from "react-markdown";
 import styles from "@/styles/global.module.css";
 import Contact from "@/components/contact";
-import { firmData } from "@/lib/variables";
+import Footer from "@/components/footer";
 
-export default function ContactPage({ pageData, firmsData }) {
+export default function ContactPage({
+  pageData,
+  firmsData,
+  dynamicRoutesData,
+}) {
   const content = pageData.staticPages[0];
   const pageSEO = content.seo;
   const firmData = firmsData.firmsData[0];
-  console.log(firmData);
+
   return (
     <RootLayout>
       <CustomHead SEO={pageSEO} />
@@ -43,18 +51,20 @@ export default function ContactPage({ pageData, firmsData }) {
             : content?.markdownTexts[0]?.markdownText}
         </ReactMarkdown>
       </div>
+      <Footer data={dynamicRoutesData} />
     </RootLayout>
   );
 }
 
 export async function getStaticProps() {
   const pageData = (await getStaticPagesContent("kontakt-skup-zlomu")) || {};
+  const dynamicRoutesData = (await getPagesContent()) || {};
   const firmsData = (await getFirmData()) || {};
-  console.log(firmData);
   return {
     props: {
       pageData,
       firmsData,
+      dynamicRoutesData,
     },
   };
 }

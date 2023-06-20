@@ -1,12 +1,21 @@
 import Image from "next/image";
 import RootLayout from "@/layouts/rootLayout";
-import { getStaticPagesContent, getPriceList } from "@/lib/hygraphcms";
+import {
+  getStaticPagesContent,
+  getPriceList,
+  getPagesContent,
+} from "@/lib/hygraphcms";
 import CustomHead from "@/components/head";
 import ReactMarkdown from "react-markdown";
 import styles from "@/styles/global.module.css";
 import PriceList from "@/components/priceList";
+import Footer from "@/components/footer";
 
-export default function PriceListPage({ pageData, priceListData }) {
+export default function PriceListPage({
+  pageData,
+  priceListData,
+  dynamicRoutesData,
+}) {
   const content = pageData.staticPages[0];
   const pageSEO = content.seo;
   const priceList = priceListData.priceLists;
@@ -41,6 +50,7 @@ export default function PriceListPage({ pageData, priceListData }) {
             : content?.markdownTexts[0]?.markdownText}
         </ReactMarkdown>
       </div>
+      <Footer data={dynamicRoutesData} />
     </RootLayout>
   );
 }
@@ -48,10 +58,12 @@ export default function PriceListPage({ pageData, priceListData }) {
 export async function getServerSideProps() {
   const pageData = (await getStaticPagesContent("cennik-skupu-zlomu")) || {};
   const priceListData = await getPriceList();
+  const dynamicRoutesData = (await getPagesContent()) || {};
   return {
     props: {
       pageData,
       priceListData,
+      dynamicRoutesData,
     },
   };
 }

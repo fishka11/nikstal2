@@ -2,8 +2,7 @@ import { getPagesContent } from "../lib/hygraphcms";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Footer() {
-  const data = await getPagesContent();
+export default function Footer({ data }) {
   const menuItemsToDisplay = data.pages.filter(
     (page) =>
       page?.menuLink?.visibleInMenu && page?.menuLink?.menu.includes("SEOMenu")

@@ -1,11 +1,7 @@
-async function fetchAPI(query, { variables, preview } = {}) {
+async function fetchAPI(query, { variables } = {}) {
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${
-      preview
-        ? process.env.HYGRAPH_DEV_AUTH_TOKEN
-        : process.env.HYGRAPH_PROD_AUTH_TOKEN
-    }`,
+    Authorization: `Bearer ${process.env.HYGRAPH_PROD_AUTH_TOKEN}`,
   };
 
   const res = await fetch(process.env.HYGRAPH_RO_PROJECT_API, {
@@ -26,7 +22,7 @@ async function fetchAPI(query, { variables, preview } = {}) {
   return json.data;
 }
 
-export async function getLayoutsSEO(preview) {
+export async function getLayoutsSEO() {
   const data = await fetchAPI(
     `
 query layoutsSEO {
@@ -40,13 +36,12 @@ query layoutsSEO {
     name
     id
   }
-}`,
-    { preview }
+}`
   );
   return { ...data };
 }
 
-export async function getPagesContent(preview) {
+export async function getPagesContent() {
   const data = await fetchAPI(
     `
 query getPagesContent {
@@ -128,13 +123,99 @@ query getPagesContent {
     }
   }
 }
-`,
-    { preview }
+`
   );
   return { ...data };
 }
 
-export async function getStaticPagesContent(slug, preview) {
+export async function getPageContent(slug) {
+  const data = await fetchAPI(
+    `
+query getPagesContent {
+  pages(where: {menuLink: {slug: "${slug}"}}) {
+    header {
+      id
+      picture {
+        fileName
+        handle
+        height
+        mimeType
+        id
+        size
+        url
+        width
+      }
+      texts {
+        subtitle
+        id
+        text {
+          html
+          markdown
+          raw
+          text
+        }
+      }
+      slogans
+      verticalPosition
+      ctaButtons {
+        url
+        text
+        id
+      }
+    }
+    id
+    markdownTexts {
+      markdownText
+      id
+    }
+    seo {
+      title
+      keywords
+      id
+      description
+    }
+    texts {
+      id
+      subtitle
+      text {
+        html
+        markdown
+        raw
+        text
+      }
+    }
+    title
+    subtitle
+    bgPictures {
+      id
+      picture {
+        fileName
+        id
+        height
+        handle
+        mimeType
+        size
+        url
+        width
+      }
+      verticalPosition
+    }
+    menuLink {
+      display
+      id
+      menu
+      positionInMenu
+      slug
+      visibleInMenu
+    }
+  }
+}
+`
+  );
+  return { ...data };
+}
+
+export async function getStaticPagesContent(slug) {
   const data = await fetchAPI(
     `
 query getstaticPagesContent {
@@ -259,13 +340,12 @@ query getstaticPagesContent {
     }
   }
 }
-`,
-    { preview }
+`
   );
   return { ...data };
 }
 
-export async function getHeaderContent(preview) {
+export async function getHeaderContent() {
   const data = await fetchAPI(
     `
 query headerContent {
@@ -285,13 +365,12 @@ query headerContent {
     phone
   }
 }
-  `,
-    { preview }
+  `
   );
   return { ...data };
 }
 
-export async function getFirmData(preview) {
+export async function getFirmData() {
   const data = await fetchAPI(
     `
 query firmData {
@@ -315,13 +394,12 @@ query firmData {
     }
   }
 }
-  `,
-    { preview }
+  `
   );
   return { ...data };
 }
 
-export async function getPriceList(preview) {
+export async function getPriceList() {
   const data = await fetchAPI(
     `
 query prices {
@@ -331,8 +409,7 @@ query prices {
     productName
   }
 }
-  `,
-    { preview }
+  `
   );
   return { ...data };
 }

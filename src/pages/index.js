@@ -4,8 +4,9 @@ import Cover from "@/components/cover";
 import ReactMarkdown from "react-markdown";
 import { v4 as uuidv4 } from "uuid";
 import RootLayout from "@/layouts/rootLayout";
-import { getStaticPagesContent } from "@/lib/hygraphcms";
+import { getPagesContent, getStaticPagesContent } from "@/lib/hygraphcms";
 import CustomHead from "@/components/head";
+import Footer from "@/components/footer";
 
 // export async function generateMetadata() {
 //   const data = await getStaticPagesContent();
@@ -18,7 +19,7 @@ import CustomHead from "@/components/head";
 //   };
 // }
 
-export default function HomePage({ pageData }) {
+export default function HomePage({ pageData, dynamicRoutesData }) {
   const content = pageData.staticPages[0];
   const pageSEO = content.seo;
   return (
@@ -80,15 +81,18 @@ export default function HomePage({ pageData }) {
           </ReactMarkdown>
         </div>
       </div>
+      <Footer data={dynamicRoutesData} />
     </RootLayout>
   );
 }
 
 export async function getStaticProps() {
   const pageData = (await getStaticPagesContent("o-nas")) || {};
+  const dynamicRoutesData = (await getPagesContent()) || {};
   return {
     props: {
       pageData,
+      dynamicRoutesData,
     },
   };
 }
