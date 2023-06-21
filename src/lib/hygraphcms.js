@@ -403,10 +403,12 @@ export async function getPriceList() {
   const data = await fetchAPI(
     `
 query prices {
-  priceLists(first: 100) {
-    id
-    price
-    productName
+  currentPriceLists(first: 100) {
+    priceList(first: 300) {
+      id
+      name
+      price
+    }
   }
 }
   `

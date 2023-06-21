@@ -1,15 +1,7 @@
-import { useRouter } from "next/router";
-// import { usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./menuItem.module.css";
 
 export default function MenuItem({ slug, display, toggle, isActive }) {
-  const router = useRouter();
-  // if (slug === "o-nas") {
-  //   slug = "/";
-  // }
-  // const path = usePathname();
-  // const pathname = path === "/" ? "/" : path.slice(1);
 
   return (
     <li>

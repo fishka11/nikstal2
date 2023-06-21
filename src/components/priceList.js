@@ -17,7 +17,7 @@ export default function PriceList({ products }) {
             return (
               <tr key={product.id} className="even:bg-slate-100">
                 <td className="border-y border-r border-slate-200 px-4 py-2 text-right font-light">
-                  {product.productName}
+                  {product.name}
                 </td>
                 <td className="border-y border-slate-200 px-4 py-2 font-bold">
                   {product.price}{" "}

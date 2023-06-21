@@ -18,7 +18,7 @@ export default function PriceListPage({
 }) {
   const content = pageData.staticPages[0];
   const pageSEO = content.seo;
-  const priceList = priceListData.priceLists;
+  const priceList = priceListData.currentPriceLists[0].priceList;
   return (
     <RootLayout>
       <CustomHead SEO={pageSEO} />
