@@ -8,20 +8,9 @@ import { getPagesContent, getStaticPagesContent } from "@/lib/hygraphcms";
 import CustomHead from "@/components/head";
 import Footer from "@/components/footer";
 
-// export async function generateMetadata() {
-//   const data = await getStaticPagesContent();
-//   const metaData = filterFetchedData(data.staticPages, "o-nas");
-
-//   return {
-//     title: metaData?.seo?.title,
-//     description: metaData?.seo?.description,
-//     keywords: metaData?.seo?.keywords,
-//   };
-// }
-
 export default function HomePage({ pageData, dynamicRoutesData }) {
   const content = pageData.staticPages[0];
-  const pageSEO = content.seo;
+  const pageSEO = content?.seo;
   return (
     <RootLayout>
       <CustomHead SEO={pageSEO} />
@@ -87,7 +76,7 @@ export default function HomePage({ pageData, dynamicRoutesData }) {
 }
 
 export async function getStaticProps() {
-  const pageData = (await getStaticPagesContent("o-nas")) || {};
+  const pageData = (await getStaticPagesContent("/")) || {};
   const dynamicRoutesData = (await getPagesContent()) || {};
   return {
     props: {

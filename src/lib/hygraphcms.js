@@ -216,10 +216,11 @@ query getPagesContent {
 }
 
 export async function getStaticPagesContent(slug) {
+  
   const data = await fetchAPI(
     `
 query getstaticPagesContent {
-  staticPages(where: {menuLink: {slug: "${slug}"}}) {
+  staticPages(where: {menuLink: {slug: ${slug === "/" ? null : `"${slug}"`}}}) {
     ctaButtons {
       id
       text
