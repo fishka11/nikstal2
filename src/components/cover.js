@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Cover({ header, ctaButtons }) {
   return (
     <div className="relative overflow-clip">
-      <div className="aria-hidden fixed top-0 -z-50 flex min-h-full overflow-clip before:absolute before:h-full before:w-full before:bg-black before:opacity-50">
+      <div className="aria-hidden fixed top-0 -z-50 flex min-h-screen w-full overflow-clip before:absolute before:h-full before:w-full before:bg-black before:opacity-50">
         <Image
           src={header?.picture?.url}
           width={header?.picture?.width}
@@ -12,7 +12,7 @@ export default function Cover({ header, ctaButtons }) {
           alt="Obrazek tła"
           style={{ objectFit: "cover" }}
           sizes="100vw"
-          className="aria-hidden min-h-full"
+          className="aria-hidden h-screen w-full"
         />
       </div>
       <div className="container flex justify-center">
