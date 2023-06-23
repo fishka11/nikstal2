@@ -19,5 +19,5 @@
 }
 
 .text a {
-    @apply hover:text-blue-800 transition-all text-blue-700
+    @apply hover:text-blue-900 transition-all text-blue-800
 }

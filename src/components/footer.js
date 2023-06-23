@@ -28,17 +28,20 @@ export default function Footer({ data }) {
               Zapraszamy zainteresowanych podjęciem współpracy z naszą firmą z
               sąsiednich miast:
             </p>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap gap-x-2 gap-y-2 text-sm">
               {menuItemsToDisplay.map((link) => {
                 return (
-                  <p key={link?.id}>
+                  <div
+                    key={link?.id}
+                    className="rounded-md bg-slate-200 px-3 py-1 transition-colors first:border-s hover:bg-slate-100"
+                  >
                     <Link
                       className="text-blue-700 transition-all hover:text-blue-800"
                       href={link?.menuLink?.slug}
                     >
                       {link?.menuLink?.display}
                     </Link>
-                  </p>
+                  </div>
                 );
               })}
             </div>
