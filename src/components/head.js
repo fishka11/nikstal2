@@ -67,6 +67,10 @@ export default function CustomHead({ SEO }) {
         />
       )}
       <meta name="author" key="author" content="Rafał Piaśnik" />
+      <meta
+        name="google-site-verification"
+        content="i5ZygHCqAwgik27FxY6hJ1MOfBvANHBBprYJB4JI8oo"
+      />
     </Head>
   );
 }
