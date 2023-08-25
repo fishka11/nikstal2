@@ -8,8 +8,11 @@ import {
 import CustomHead from "@/components/head";
 import ReactMarkdown from "react-markdown";
 import styles from "@/styles/global.module.css";
-import Contact from "@/components/contact";
+import FirmData from "@/components/firmData";
 import Footer from "@/components/footer";
+import OpeningHours from "@/components/openingHours";
+import GoogleMap from "@/components/googleMap";
+import CardWithIcon from "@/components/cardWithIcon";
 
 export default function ContactPage({
   pageData,
@@ -40,7 +43,20 @@ export default function ContactPage({
           {content?.subtitle}
         </p>
       </div>
-      <Contact cards={content.cardsWithIcon} firmData={firmData} />
+      <div className="container flex max-w-screen-2xl flex-wrap justify-center">
+        {content.cardsWithIcon.map((card) => {
+          return (
+            <CardWithIcon
+              key={card?.id || uuidv4()}
+              icon={card?.fontAwesomeIconName}
+              title={card?.subtitle}
+              texts={card?.texts}
+            />
+          );
+        })}
+      </div>
+      <FirmData firmData={firmData} />
+      <OpeningHours firmData={firmData} />
       <div className="container max-w-screen-lg p-2 md:pb-8 md:pt-0">
         <h2 className="mb-2 text-2xl font-light text-blue-800">
           {content?.texts[0]?.subtitle}
@@ -51,6 +67,7 @@ export default function ContactPage({
             : content?.markdownTexts[0]?.markdownText}
         </ReactMarkdown>
       </div>
+      <GoogleMap />
       <Footer data={dynamicRoutesData} />
     </RootLayout>
   );

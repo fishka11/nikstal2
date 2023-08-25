@@ -4,11 +4,15 @@ import Cover from "@/components/cover";
 import ReactMarkdown from "react-markdown";
 import { v4 as uuidv4 } from "uuid";
 import RootLayout from "@/layouts/rootLayout";
-import { getPagesContent, getStaticPagesContent } from "@/lib/hygraphcms";
+import {
+  getPagesContent,
+  getStaticPagesContent,
+  getFirmData,
+} from "@/lib/hygraphcms";
 import CustomHead from "@/components/head";
 import Footer from "@/components/footer";
 
-export default function HomePage({ pageData, dynamicRoutesData }) {
+export default function HomePage({ pageData, dynamicRoutesData, firmsData }) {
   const content = pageData.staticPages[0];
   const pageSEO = content?.seo;
   return (
@@ -75,13 +79,15 @@ export default function HomePage({ pageData, dynamicRoutesData }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const pageData = (await getStaticPagesContent("/")) || {};
   const dynamicRoutesData = (await getPagesContent()) || {};
+  const firmsData = (await getFirmData()) || {};
   return {
     props: {
       pageData,
       dynamicRoutesData,
+      firmsData,
     },
   };
 }

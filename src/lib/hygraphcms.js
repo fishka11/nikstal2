@@ -216,7 +216,6 @@ query getPagesContent {
 }
 
 export async function getStaticPagesContent(slug) {
-  
   const data = await fetchAPI(
     `
 query getstaticPagesContent {
@@ -389,9 +388,10 @@ query firmData {
     web
     workingHours {
       id
-      dayOfWeek
+      day
       openingHour
       closingHour
+      closed
     }
   }
 }
